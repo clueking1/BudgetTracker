@@ -82,3 +82,20 @@ self.addEventListener("fetch", event => {
     );
   });
 
+  function openDatabase () {
+   
+    var indexedDBOpenRequest = indexedDB.open('flask-form')
+    indexedDBOpenRequest.onerror = function (error) {
+        console.error('IndexedDB error:', error)
+    }
+   indexedDBOpenRequest.onupgradeneeded = function () {
+      this.result.createObjectStore('post_requests', {
+      autoIncrement:  true, keyPath: 'id' })
+   }
+
+    indexedDBOpenRequest.onsuccess = function (e) {
+      our_db = this.result
+    }
+  }
+  var our_db
+  openDatabase()
